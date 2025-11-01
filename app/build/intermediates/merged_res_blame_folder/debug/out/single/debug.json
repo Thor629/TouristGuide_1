@@ -1,0 +1,130 @@
+[
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_favorite_border.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_favorite_border.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_auth.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_auth.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_add.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-mdpi_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-mdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_item_image_slide.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/item_image_slide.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_main.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_rounded_search_bar.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/rounded_search_bar.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_add_place.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_add_place.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/xml_backup_rules.xml.flat",
+        "source": "com.touristguide.app-main-49:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_launcher_fallback.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_launcher_fallback.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_admin_panel.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_admin_panel.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-xxxhdpi_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-xxxhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_item_review.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/item_review.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_favorite.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_favorite.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_item_place_card.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/item_place_card.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_liked_places.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_liked_places.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/xml_data_extraction_rules.xml.flat",
+        "source": "com.touristguide.app-main-49:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_my_places.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_my_places.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_item_pending_place.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/item_pending_place.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-xxhdpi_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-xxhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/menu_menu_main.xml.flat",
+        "source": "com.touristguide.app-main-49:/menu/menu_main.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-hdpi_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-hdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_search.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_splash_background.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/splash_background.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-xhdpi_ic_launcher.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-xhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_dialog_add_review.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/dialog_add_review.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.touristguide.app-main-49:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_activity_place_details.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/activity_place_details.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/drawable_ic_logo.xml.flat",
+        "source": "com.touristguide.app-main-49:/drawable/ic_logo.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/xml_file_paths.xml.flat",
+        "source": "com.touristguide.app-main-49:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.touristguide.app-merged_res-47:/layout_item_selected_image.xml.flat",
+        "source": "com.touristguide.app-main-49:/layout/item_selected_image.xml"
+    }
+]

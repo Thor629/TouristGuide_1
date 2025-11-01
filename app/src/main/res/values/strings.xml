@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tourist Guide</string>
+    
+    <!-- General -->
+    <string name="loading">Loading…</string>
+    <string name="error_occurred">An error occurred</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="retry">Retry</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="submit">Submit</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    
+    <!-- Auth -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="name">Name</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="logout">Logout</string>
+    <string name="logout_confirm">Are you sure you want to logout?</string>
+    
+    <!-- Validation -->
+    <string name="error_empty_name">Name cannot be empty</string>
+    <string name="error_empty_email">Email cannot be empty</string>
+    <string name="error_invalid_email">Please enter a valid email</string>
+    <string name="error_empty_password">Password cannot be empty</string>
+    <string name="error_short_password">Password must be at least 6 characters</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    
+    <!-- Home -->
+    <string name="welcome">Welcome</string>
+    <string name="search_places">Search places in Surat…</string>
+    <string name="all_categories">All Categories</string>
+    <string name="no_places_found">No places found</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="search_limited_surat">Search is currently limited to Surat only. Other cities coming soon!</string>
+    
+    <!-- Place Details -->
+    <string name="place_details">Place Details</string>
+    <string name="reviews">Reviews</string>
+    <string name="add_review">Add Review</string>
+    <string name="no_reviews">No reviews yet</string>
+    <string name="rating">Rating</string>
+    <string name="comment">Comment</string>
+    <string name="write_review">Write your review…</string>
+    <string name="like">Like</string>
+    <string name="unlike">Unlike</string>
+    <string name="likes">Likes</string>
+    <string name="visit_website">Visit Website</string>
+    
+    <!-- Add Place -->
+    <string name="add_place">Add Place</string>
+    <string name="place_name">Place Name</string>
+    <string name="location">Location</string>
+    <string name="city">City</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="website_link">Website Link (Optional)</string>
+    <string name="select_images">Select Images</string>
+    <string name="add_images">Add Images</string>
+    <string name="place_added_success">Place added successfully</string>
+    <string name="place_submitted_approval">Place submitted for approval</string>
+    <string name="error_empty_place_name">Place name cannot be empty</string>
+    <string name="error_empty_location">Location cannot be empty</string>
+    <string name="error_empty_description">Description cannot be empty</string>
+    <string name="error_select_category">Please select a category</string>
+    
+    <!-- Liked Places -->
+    <string name="liked_places">Liked Places</string>
+    <string name="no_liked_places">You haven\'t liked any places yet</string>
+    
+    <!-- Admin -->
+    <string name="admin_panel">Admin Panel</string>
+    <string name="pending_approvals">Pending Approvals</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="no_pending_places">No pending places</string>
+    <string name="place_approved">Place approved successfully</string>
+    <string name="place_deleted">Place deleted successfully</string>
+    
+    <!-- Menu -->
+    <string name="menu">Menu</string>
+    <string name="my_liked_places">My Liked Places</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+</resources>

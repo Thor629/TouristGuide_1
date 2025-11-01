@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/item_pending_place.xml",
+        "source": "com.touristguide.app-main-49:/layout/item_pending_place.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_auth.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_auth.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_liked_places.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_liked_places.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/dialog_add_review.xml",
+        "source": "com.touristguide.app-main-49:/layout/dialog_add_review.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_add_place.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_add_place.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/item_place_card.xml",
+        "source": "com.touristguide.app-main-49:/layout/item_place_card.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/item_review.xml",
+        "source": "com.touristguide.app-main-49:/layout/item_review.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/item_image_slide.xml",
+        "source": "com.touristguide.app-main-49:/layout/item_image_slide.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_admin_panel.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_admin_panel.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/item_selected_image.xml",
+        "source": "com.touristguide.app-main-49:/layout/item_selected_image.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_main.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_my_places.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_my_places.xml"
+    },
+    {
+        "merged": "com.touristguide.app-mergeDebugResources-46:/layout/activity_place_details.xml",
+        "source": "com.touristguide.app-main-49:/layout/activity_place_details.xml"
+    }
+]
