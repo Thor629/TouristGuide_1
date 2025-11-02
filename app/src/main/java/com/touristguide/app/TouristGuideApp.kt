@@ -8,7 +8,7 @@ class TouristGuideApp : Application() {
     
     lateinit var preferenceManager: PreferenceManager
         private set
-    
+
     override fun onCreate() {
         super.onCreate()
 
