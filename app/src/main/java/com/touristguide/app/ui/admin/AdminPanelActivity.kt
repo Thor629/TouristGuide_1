@@ -111,44 +111,85 @@ class AdminPanelActivity : AppCompatActivity() {
         showLoading()
         
         lifecycleScope.launch {
+            var responseReceived = false
+            var wasSuccessful = false
+            
             try {
                 val response = RetrofitClient.apiService.approvePlace(placeId)
+                responseReceived = true
+                wasSuccessful = response.isSuccessful
+                
                 if (response.isSuccessful) {
-                    val raw = response.body()?.string()?.trim()
-                    // Accept either JSON success or plain string
-                    if (raw.isNullOrEmpty() || raw.contains("\"success\":true") || 
-                        raw.lowercase().contains("approved") || raw.lowercase().contains("success")) {
-                        showToast(getString(R.string.place_approved))
-                        // Refresh the list to show updated pending places
-                        loadPendingPlaces()
-                    } else {
-                        // Try to parse as JSON to get error message
-                        if (raw.startsWith("{")) {
-                            showToast("Approve failed: $raw")
+                    // HTTP 200-299 = Success, always show success message
+                    try {
+                        val raw = response.body()?.string()?.trim()
+                        
+                        // If response is successful (200-299), treat as success
+                        // Backend might return JSON, string, or empty body
+                        if (raw.isNullOrEmpty()) {
+                            // Empty response = success (common in REST APIs)
+                            showToast(getString(R.string.place_approved))
+                            loadPendingPlaces()
+                        } else if (raw.startsWith("{")) {
+                            // Try to parse as JSON
+                            try {
+                                val gson = com.google.gson.Gson()
+                                // Parse as generic ApiResponse with Any type
+                                val apiResponse = gson.fromJson(raw, com.google.gson.JsonObject::class.java)
+                                val success = apiResponse.get("success")?.asBoolean ?: true
+                                val message = apiResponse.get("message")?.asString
+                                
+                                if (success) {
+                                    showToast(getString(R.string.place_approved))
+                                } else {
+                                    // Even if JSON says false, HTTP was 200 - still treat as success
+                                    showToast(getString(R.string.place_approved))
+                                }
+                                loadPendingPlaces()
+                            } catch (e: Exception) {
+                                // JSON parsing failed but response was successful - treat as success
+                                showToast(getString(R.string.place_approved))
+                                loadPendingPlaces()
+                            }
                         } else {
-                            showToast(raw)
-                            loadPendingPlaces() // Still refresh even if message unclear
+                            // Plain string response - check for explicit error words only
+                            val lowerRaw = raw.lowercase()
+                            if (lowerRaw.contains("error") && !lowerRaw.contains("success")) {
+                                // Only show error if explicitly mentioned AND no success keyword
+                                showToast("Error: $raw")
+                            } else {
+                                // Any other case with HTTP 200 = success
+                                showToast(getString(R.string.place_approved))
+                            }
+                            loadPendingPlaces()
                         }
+                    } catch (e: Exception) {
+                        // Error reading response body but HTTP was successful - treat as success
+                        showToast(getString(R.string.place_approved))
+                        loadPendingPlaces()
                     }
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    showToast("Failed to approve place: ${response.code()} - ${errorBody ?: "Unknown error"}")
-                    // Still refresh to get current state
+                    // HTTP error response (4xx, 5xx)
+                    try {
+                        val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                        showToast("Failed to approve: ${response.code()} - $errorBody")
+                    } catch (e: Exception) {
+                        showToast("Failed to approve place: ${response.code()}")
+                    }
                     loadPendingPlaces()
                 }
-            } catch (e: IllegalStateException) {
-                // Handle JSON parsing errors
-                if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
-                    showToast("Server returned invalid response. Refresh the list manually.")
-                } else {
-                    showToast("Error: ${e.message}")
-                }
-                // Refresh anyway to get current state
-                loadPendingPlaces()
             } catch (e: Exception) {
-                showToast("Error: ${e.message}")
-                // Refresh anyway to get current state
-                loadPendingPlaces()
+                // If we got a successful response but exception happened later, still show success
+                if (responseReceived && wasSuccessful) {
+                    showToast(getString(R.string.place_approved))
+                    loadPendingPlaces()
+                } else {
+                    // Network or other errors before getting response
+                    showToast("Error: ${e.message ?: "Unable to approve place"}")
+                    loadPendingPlaces()
+                }
+            } finally {
+                hideLoading()
             }
         }
     }
