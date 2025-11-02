@@ -4,7 +4,7 @@
             "outputFile": "com.touristguide.app-mergeDebugResources-45:/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\9012bbbcb49b0356a1cdbae326f91ff7\\transformed\\jetified-ucrop-2.2.6\\res\\values-zh\\values-zh.xml",
+                    "source": "C:\\Users\\vikas\\.gradle\\caches\\transforms-3\\9012bbbcb49b0356a1cdbae326f91ff7\\transformed\\jetified-ucrop-2.2.6\\res\\values-zh\\values-zh.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
