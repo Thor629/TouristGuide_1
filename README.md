@@ -1,4 +1,4 @@
-# Tourist Guide Android App
+# Tourist Guide Android Ap
 
 Native Android app built with Kotlin for browsing tourist places in Surat.
 
