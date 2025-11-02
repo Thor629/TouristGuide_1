@@ -136,6 +136,15 @@ class AdminPanelActivity : AppCompatActivity() {
                     // Still refresh to get current state
                     loadPendingPlaces()
                 }
+            } catch (e: IllegalStateException) {
+                // Handle JSON parsing errors
+                if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
+                    showToast("Server returned invalid response. Refresh the list manually.")
+                } else {
+                    showToast("Error: ${e.message}")
+                }
+                // Refresh anyway to get current state
+                loadPendingPlaces()
             } catch (e: Exception) {
                 showToast("Error: ${e.message}")
                 // Refresh anyway to get current state
