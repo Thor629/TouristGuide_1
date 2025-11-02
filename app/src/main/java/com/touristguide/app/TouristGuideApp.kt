@@ -11,7 +11,7 @@ class TouristGuideApp : Application() {
     
     override fun onCreate() {
         super.onCreate()
-        
+
         // Initialize preference manager
         preferenceManager = PreferenceManager(this)
         
