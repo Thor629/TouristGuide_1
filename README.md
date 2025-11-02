@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Tourist Guide Android Ap
+=======
+# Tourist Guide Android ApP
+>>>>>>> 46fc1ae (Your commit message)
 
 Native Android app built with Kotlin for browsing tourist places in Surat.
 
