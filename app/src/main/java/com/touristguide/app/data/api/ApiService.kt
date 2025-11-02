@@ -65,7 +65,7 @@ interface ApiService {
     suspend fun deletePlace(@Path("id") placeId: String): Response<ApiResponse<Any>>
     
     @GET("places/pending")
-    suspend fun getPendingPlaces(): Response<ResponseBody>
+    suspend fun getPendingPlaces(): Response<PlaceResponse>
     
     @PUT("places/{id}/approve")
     suspend fun approvePlace(@Path("id") placeId: String): Response<ResponseBody>

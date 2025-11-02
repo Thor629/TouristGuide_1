@@ -62,53 +62,34 @@ class AdminPanelActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.apiService.getPendingPlaces()
-                if (response.isSuccessful) {
-                    val raw = response.body()?.string()?.trim()
-                    if (raw.isNullOrEmpty()) {
-                        pendingPlacesAdapter.submitList(emptyList())
-                        binding.tvPendingCount.text = "Pending Approvals: 0"
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val places = response.body()?.data ?: emptyList()
+                    val count = places.size
+                    
+                    pendingPlacesAdapter.submitList(places)
+                    binding.tvPendingCount.text = "Pending Approvals: ${count}"
+                    
+                    if (places.isEmpty()) {
                         binding.tvNoPlaces.show()
                         binding.rvPendingPlaces.hide()
-                    } else if (raw.startsWith("{")) {
-                        // Try to parse expected JSON minimalistically to avoid model crashes
-                        // We only extract success and data list size via simple checks
-                        val hasSuccess = raw.contains("\"success\":true")
-                        if (hasSuccess) {
-                            // naive count: count field if present; otherwise compute from 'data' array brackets
-                            val countRegex = Regex("\"count\"\\s*:\\s*(\\d+)")
-                            val count = countRegex.find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull()
-                                ?: Regex("\"data\"\\s*:\\s*\\[(.*?)\\]", RegexOption.DOT_MATCHES_ALL)
-                                    .find(raw)
-                                    ?.groupValues?.getOrNull(1)
-                                    ?.let { inner -> if (inner.isBlank()) 0 else inner.split("},").size }
-                                    ?: 0
-                            binding.tvPendingCount.text = "Pending Approvals: ${count}"
-                            // We don't attempt full object parsing; trigger refresh of adapter with empty to avoid crashes
-                            // Optionally you can re-request with a stable endpoint later
-                            pendingPlacesAdapter.submitList(emptyList())
-                            if (count == 0) {
-                                binding.tvNoPlaces.show()
-                                binding.rvPendingPlaces.hide()
-                            } else {
-                                binding.tvNoPlaces.hide()
-                                binding.rvPendingPlaces.show()
-                            }
-                        } else {
-                            showToast("Failed to load pending places")
-                        }
                     } else {
-                        // Plain text response, just show it and assume no data
-                        showToast(raw)
-                        pendingPlacesAdapter.submitList(emptyList())
-                        binding.tvPendingCount.text = "Pending Approvals: 0"
-                        binding.tvNoPlaces.show()
-                        binding.rvPendingPlaces.hide()
+                        binding.tvNoPlaces.hide()
+                        binding.rvPendingPlaces.show()
                     }
                 } else {
-                    showToast("Failed to load pending places: ${response.code()}")
+                    val errorMessage = response.body()?.message ?: "Failed to load pending places"
+                    showToast("$errorMessage (${response.code()})")
+                    pendingPlacesAdapter.submitList(emptyList())
+                    binding.tvPendingCount.text = "Pending Approvals: 0"
+                    binding.tvNoPlaces.show()
+                    binding.rvPendingPlaces.hide()
                 }
             } catch (e: Exception) {
                 showToast("Error: ${e.message}")
+                pendingPlacesAdapter.submitList(emptyList())
+                binding.tvPendingCount.text = "Pending Approvals: 0"
+                binding.tvNoPlaces.show()
+                binding.rvPendingPlaces.hide()
             } finally {
                 hideLoading()
             }
@@ -127,33 +108,38 @@ class AdminPanelActivity : AppCompatActivity() {
     }
     
     private fun performApprove(placeId: String) {
+        showLoading()
+        
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.apiService.approvePlace(placeId)
                 if (response.isSuccessful) {
                     val raw = response.body()?.string()?.trim()
                     // Accept either JSON success or plain string
-                    if (raw.isNullOrEmpty()) {
+                    if (raw.isNullOrEmpty() || raw.contains("\"success\":true") || 
+                        raw.lowercase().contains("approved") || raw.lowercase().contains("success")) {
                         showToast(getString(R.string.place_approved))
+                        // Refresh the list to show updated pending places
                         loadPendingPlaces()
-                    } else if (raw.startsWith("{")) {
-                        // Backend returned JSON; try to detect a success flag quickly
-                        if (raw.contains("\"success\":true")) {
-                            showToast(getString(R.string.place_approved))
-                            loadPendingPlaces()
-                        } else {
-                            showToast("Approve failed: ${raw}")
-                        }
                     } else {
-                        // Plain string like "Approved" or message
-                        showToast(raw)
-                        loadPendingPlaces()
+                        // Try to parse as JSON to get error message
+                        if (raw.startsWith("{")) {
+                            showToast("Approve failed: $raw")
+                        } else {
+                            showToast(raw)
+                            loadPendingPlaces() // Still refresh even if message unclear
+                        }
                     }
                 } else {
-                    showToast("Failed to approve place: ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    showToast("Failed to approve place: ${response.code()} - ${errorBody ?: "Unknown error"}")
+                    // Still refresh to get current state
+                    loadPendingPlaces()
                 }
             } catch (e: Exception) {
                 showToast("Error: ${e.message}")
+                // Refresh anyway to get current state
+                loadPendingPlaces()
             }
         }
     }
