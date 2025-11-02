@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var placesAdapter: PlacesAdapter
     private val categories = mutableListOf<Category>()
     private var selectedCategoryId: String? = null
+    private var isFirstLoad = true
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         setupSwipeRefresh()
         
         loadCategories()
-        loadPlaces()
     }
     
     private fun setupToolbar() {
@@ -192,21 +192,30 @@ class MainActivity : AppCompatActivity() {
                 }
             } catch (e: IllegalStateException) {
                 // Handle JSON parsing errors when backend returns string instead of JSON
-                if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
-                    showToast("Server returned invalid response format. Please try again.")
-                } else {
-                    showToast("Error: ${e.message}")
+                // Don't show error toast on first load (app startup) - just silently handle it
+                if (!isFirstLoad) {
+                    if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
+                        // Silently handle JSON parsing errors - backend might return string instead of JSON
+                        // Show user-friendly message only if not first load
+                        showToast("Unable to load places. Please pull to refresh.")
+                    } else {
+                        showToast("Error: ${e.message}")
+                    }
                 }
                 placesAdapter.submitList(emptyList())
                 binding.tvNoPlaces.show()
                 binding.rvPlaces.hide()
             } catch (e: Exception) {
-                showToast("Error: ${e.message}")
+                // Don't show error toast on first load (app startup)
+                if (!isFirstLoad) {
+                    showToast("Error: ${e.message}")
+                }
                 placesAdapter.submitList(emptyList())
                 binding.tvNoPlaces.show()
                 binding.rvPlaces.hide()
             } finally {
                 hideLoading()
+                isFirstLoad = false
             }
         }
     }
@@ -355,6 +364,13 @@ class MainActivity : AppCompatActivity() {
     
     override fun onResume() {
         super.onResume()
-        loadPlaces()
+        // Load places on first resume (app startup)
+        // Also reload when returning from other activities (like AdminPanel after approval)
+        if (isFirstLoad) {
+            loadPlaces()
+        } else {
+            // Refresh places when returning from other activities to show newly approved places
+            loadPlaces()
+        }
     }
 }
