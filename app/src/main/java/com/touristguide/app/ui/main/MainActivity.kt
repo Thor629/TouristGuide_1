@@ -25,6 +25,10 @@ import com.touristguide.app.ui.auth.AuthActivity
 import com.touristguide.app.ui.liked.LikedPlacesActivity
 import com.touristguide.app.ui.myplaces.MyPlacesActivity
 import com.touristguide.app.ui.placedetails.PlaceDetailsActivity
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.touristguide.app.data.model.PlaceResponse
+import okhttp3.ResponseBody
 import com.touristguide.app.utils.hide
 import com.touristguide.app.utils.show
 import com.touristguide.app.utils.showToast
@@ -149,21 +153,57 @@ class MainActivity : AppCompatActivity() {
                 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && responseBody.success == true) {
-                        val places = responseBody.data ?: emptyList()
-                        placesAdapter.submitList(places)
-                        
-                        if (places.isEmpty()) {
+                    if (responseBody != null) {
+                        try {
+                            val rawJson = responseBody.string()
+                            
+                            // Check if it's a JSON object
+                            if (rawJson.trim().startsWith("{")) {
+                                val gson = Gson()
+                                val placeResponse = gson.fromJson(rawJson, PlaceResponse::class.java)
+                                
+                                if (placeResponse.success == true) {
+                                    val places = placeResponse.data ?: emptyList()
+                                    // Filter to only show approved places
+                                    val approvedPlaces = places.filter { it.isApproved }
+                                    placesAdapter.submitList(approvedPlaces)
+                                    
+                                    if (approvedPlaces.isEmpty()) {
+                                        binding.tvNoPlaces.show()
+                                        binding.rvPlaces.hide()
+                                    } else {
+                                        binding.tvNoPlaces.hide()
+                                        binding.rvPlaces.show()
+                                    }
+                                } else {
+                                    val errorMessage = placeResponse.message ?: "Failed to load places"
+                                    if (!isFirstLoad) {
+                                        showToast(errorMessage)
+                                    }
+                                    placesAdapter.submitList(emptyList())
+                                    binding.tvNoPlaces.show()
+                                    binding.rvPlaces.hide()
+                                }
+                            } else {
+                                // Backend returned a plain string (not JSON)
+                                if (!isFirstLoad) {
+                                    showToast("Server returned invalid format: $rawJson")
+                                }
+                                placesAdapter.submitList(emptyList())
+                                binding.tvNoPlaces.show()
+                                binding.rvPlaces.hide()
+                            }
+                        } catch (e: JsonSyntaxException) {
+                            // JSON parsing failed
+                            if (!isFirstLoad) {
+                                showToast("Failed to parse server response. Please try again.")
+                            }
+                            placesAdapter.submitList(emptyList())
                             binding.tvNoPlaces.show()
                             binding.rvPlaces.hide()
-                        } else {
-                            binding.tvNoPlaces.hide()
-                            binding.rvPlaces.show()
                         }
                     } else {
-                        // Response body might be null or success is false
-                        val errorMessage = responseBody?.message ?: "Failed to load places"
-                        showToast(errorMessage)
+                        // Response body is null
                         placesAdapter.submitList(emptyList())
                         binding.tvNoPlaces.show()
                         binding.rvPlaces.hide()
@@ -172,39 +212,18 @@ class MainActivity : AppCompatActivity() {
                     // Handle HTTP error responses
                     try {
                         val errorBody = response.errorBody()?.string()
-                        val errorMessage = if (errorBody?.startsWith("{") == true) {
-                            // Try to extract message from JSON error
-                            if (errorBody.contains("\"message\"")) {
-                                Regex("\"message\"\\s*:\\s*\"([^\"]+)\"").find(errorBody)?.groupValues?.get(1) ?: errorBody
-                            } else {
-                                errorBody
-                            }
-                        } else {
-                            errorBody ?: "Failed to load places"
+                        if (!isFirstLoad) {
+                            showToast("Failed to load places: ${response.code()}")
                         }
-                        showToast("Error: $errorMessage")
                     } catch (e: Exception) {
-                        showToast("Failed to load places: ${response.code()}")
+                        if (!isFirstLoad) {
+                            showToast("Failed to load places")
+                        }
                     }
                     placesAdapter.submitList(emptyList())
                     binding.tvNoPlaces.show()
                     binding.rvPlaces.hide()
                 }
-            } catch (e: IllegalStateException) {
-                // Handle JSON parsing errors when backend returns string instead of JSON
-                // Don't show error toast on first load (app startup) - just silently handle it
-                if (!isFirstLoad) {
-                    if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
-                        // Silently handle JSON parsing errors - backend might return string instead of JSON
-                        // Show user-friendly message only if not first load
-                        showToast("Unable to load places. Please pull to refresh.")
-                    } else {
-                        showToast("Error: ${e.message}")
-                    }
-                }
-                placesAdapter.submitList(emptyList())
-                binding.tvNoPlaces.show()
-                binding.rvPlaces.hide()
             } catch (e: Exception) {
                 // Don't show error toast on first load (app startup)
                 if (!isFirstLoad) {
@@ -246,25 +265,43 @@ class MainActivity : AppCompatActivity() {
                 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && responseBody.success == true) {
-                        val places = responseBody.data ?: emptyList()
-                        placesAdapter.submitList(places)
-                        
-                        if (places.isEmpty()) {
+                    if (responseBody != null) {
+                        try {
+                            val rawJson = responseBody.string()
+                            if (rawJson.trim().startsWith("{")) {
+                                val gson = Gson()
+                                val placeResponse = gson.fromJson(rawJson, PlaceResponse::class.java)
+                                
+                                if (placeResponse.success == true) {
+                                    val places = placeResponse.data ?: emptyList()
+                                    val approvedPlaces = places.filter { it.isApproved }
+                                    placesAdapter.submitList(approvedPlaces)
+                                    
+                                    if (approvedPlaces.isEmpty()) {
+                                        binding.tvNoPlaces.show()
+                                        binding.rvPlaces.hide()
+                                    } else {
+                                        binding.tvNoPlaces.hide()
+                                        binding.rvPlaces.show()
+                                    }
+                                } else {
+                                    showToast(placeResponse.message ?: "No places found")
+                                    placesAdapter.submitList(emptyList())
+                                    binding.tvNoPlaces.show()
+                                    binding.rvPlaces.hide()
+                                }
+                            } else {
+                                showToast("Invalid response format")
+                                placesAdapter.submitList(emptyList())
+                                binding.tvNoPlaces.show()
+                                binding.rvPlaces.hide()
+                            }
+                        } catch (e: JsonSyntaxException) {
+                            showToast("Failed to parse response")
+                            placesAdapter.submitList(emptyList())
                             binding.tvNoPlaces.show()
                             binding.rvPlaces.hide()
-                        } else {
-                            binding.tvNoPlaces.hide()
-                            binding.rvPlaces.show()
                         }
-                    } else {
-                        val errorMessage = responseBody?.message ?: "No places found"
-                        if (responseBody?.success != false) {
-                            showToast(errorMessage)
-                        }
-                        placesAdapter.submitList(emptyList())
-                        binding.tvNoPlaces.show()
-                        binding.rvPlaces.hide()
                     }
                 } else {
                     try {
@@ -277,16 +314,6 @@ class MainActivity : AppCompatActivity() {
                     binding.tvNoPlaces.show()
                     binding.rvPlaces.hide()
                 }
-            } catch (e: IllegalStateException) {
-                // Handle JSON parsing errors
-                if (e.message?.contains("BEGIN_OBJECT") == true || e.message?.contains("STRI") == true) {
-                    showToast("Server returned invalid response format. Please try again.")
-                } else {
-                    showToast("Error: ${e.message}")
-                }
-                placesAdapter.submitList(emptyList())
-                binding.tvNoPlaces.show()
-                binding.rvPlaces.hide()
             } catch (e: Exception) {
                 showToast("Error: ${e.message}")
                 placesAdapter.submitList(emptyList())
