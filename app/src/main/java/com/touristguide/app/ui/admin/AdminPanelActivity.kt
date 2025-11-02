@@ -139,12 +139,8 @@ class AdminPanelActivity : AppCompatActivity() {
                                 val success = apiResponse.get("success")?.asBoolean ?: true
                                 val message = apiResponse.get("message")?.asString
                                 
-                                if (success) {
-                                    showToast(getString(R.string.place_approved))
-                                } else {
-                                    // Even if JSON says false, HTTP was 200 - still treat as success
-                                    showToast(getString(R.string.place_approved))
-                                }
+                                // HTTP 200 = success, always show success message
+                                showToast(getString(R.string.place_approved))
                                 loadPendingPlaces()
                             } catch (e: Exception) {
                                 // JSON parsing failed but response was successful - treat as success

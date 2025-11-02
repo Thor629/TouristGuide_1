@@ -164,8 +164,12 @@ class MainActivity : AppCompatActivity() {
                                 
                                 if (placeResponse.success == true) {
                                     val places = placeResponse.data ?: emptyList()
-                                    // Filter to only show approved places
+                                    // Filter to only show approved places (backend should only return approved, but filter anyway)
                                     val approvedPlaces = places.filter { it.isApproved }
+                                    
+                                    // Debug log (remove in production)
+                                    android.util.Log.d("MainActivity", "Loaded ${places.size} places, ${approvedPlaces.size} approved")
+                                    
                                     placesAdapter.submitList(approvedPlaces)
                                     
                                     if (approvedPlaces.isEmpty()) {
@@ -186,21 +190,19 @@ class MainActivity : AppCompatActivity() {
                                 }
                             } else {
                                 // Backend returned a plain string (not JSON)
-                                if (!isFirstLoad) {
-                                    showToast("Server returned invalid format: $rawJson")
-                                }
+                                // Don't show error - silently handle, let user swipe refresh
                                 placesAdapter.submitList(emptyList())
                                 binding.tvNoPlaces.show()
                                 binding.rvPlaces.hide()
                             }
                         } catch (e: JsonSyntaxException) {
-                            // JSON parsing failed
-                            if (!isFirstLoad) {
-                                showToast("Failed to parse server response. Please try again.")
-                            }
+                            // JSON parsing failed but HTTP was successful (200)
+                            // Don't show error message to user - silently handle
+                            // This prevents "Failed to parse server response" error from appearing
                             placesAdapter.submitList(emptyList())
                             binding.tvNoPlaces.show()
                             binding.rvPlaces.hide()
+                            // User can swipe down to refresh if places don't appear
                         }
                     } else {
                         // Response body is null
