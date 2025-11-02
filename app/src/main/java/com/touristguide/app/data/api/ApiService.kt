@@ -28,7 +28,7 @@ interface ApiService {
         @Query("category") category: String? = null,
         @Query("search") search: String? = null,
         @Query("city") city: String? = null
-    ): Response<ResponseBody>
+    ): Response<PlaceResponse>
     
     @GET("places/user/my-places")
     suspend fun getMyPlaces(): Response<PlaceResponse>

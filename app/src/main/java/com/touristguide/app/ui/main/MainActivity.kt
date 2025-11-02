@@ -152,61 +152,51 @@ class MainActivity : AppCompatActivity() {
                 )
                 
                 if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        try {
-                            val rawJson = responseBody.string()
-                            
-                            // Check if it's a JSON object
-                            if (rawJson.trim().startsWith("{")) {
-                                val gson = Gson()
-                                val placeResponse = gson.fromJson(rawJson, PlaceResponse::class.java)
-                                
-                                if (placeResponse.success == true) {
-                                    val places = placeResponse.data ?: emptyList()
-                                    // Filter to only show approved places (backend should only return approved, but filter anyway)
-                                    val approvedPlaces = places.filter { it.isApproved }
+                    val placeResponse = response.body()
+                    if (placeResponse != null && placeResponse.success) {
+                        val places = placeResponse.data ?: emptyList()
+                        // Filter to only show approved places (backend should only return approved, but filter anyway)
+                        val approvedPlaces = places.filter { it.isApproved }
                                     
-                                    // Debug log (remove in production)
-                                    android.util.Log.d("MainActivity", "Loaded ${places.size} places, ${approvedPlaces.size} approved")
-                                    
-                                    placesAdapter.submitList(approvedPlaces)
-                                    
-                                    if (approvedPlaces.isEmpty()) {
-                                        binding.tvNoPlaces.show()
-                                        binding.rvPlaces.hide()
-                                    } else {
-                                        binding.tvNoPlaces.hide()
-                                        binding.rvPlaces.show()
-                                    }
-                                } else {
-                                    val errorMessage = placeResponse.message ?: "Failed to load places"
-                                    if (!isFirstLoad) {
-                                        showToast(errorMessage)
-                                    }
-                                    placesAdapter.submitList(emptyList())
-                                    binding.tvNoPlaces.show()
-                                    binding.rvPlaces.hide()
-                                }
-                            } else {
-                                // Backend returned a plain string (not JSON)
-                                // Don't show error - silently handle, let user swipe refresh
-                                placesAdapter.submitList(emptyList())
-                                binding.tvNoPlaces.show()
-                                binding.rvPlaces.hide()
-                            }
-                        } catch (e: JsonSyntaxException) {
-                            // JSON parsing failed but HTTP was successful (200)
-                            // Don't show error message to user - silently handle
-                            // This prevents "Failed to parse server response" error from appearing
-                            placesAdapter.submitList(emptyList())
+                        // Debug log (remove in production)
+                        android.util.Log.d("MainActivity", "Loaded ${places.size} places, ${approvedPlaces.size} approved")
+                        
+                        placesAdapter.submitList(approvedPlaces)
+                        
+                        if (approvedPlaces.isEmpty()) {
                             binding.tvNoPlaces.show()
                             binding.rvPlaces.hide()
-                            // User can swipe down to refresh if places don't appear
+                        } else {
+                            binding.tvNoPlaces.hide()
+                            binding.rvPlaces.show()
                         }
                     } else {
-                        // Response body is null
+                        val errorMessage = placeResponse?.message ?: "Failed to load places"
+                        if (!isFirstLoad) {
+                            showToast(errorMessage)
+                        }
                         placesAdapter.submitList(emptyList())
+                        binding.tvNoPlaces.show()
+                        binding.rvPlaces.hide()
+                    }
+                } else {
+                    // Response body is null
+                    placesAdapter.submitList(emptyList())
+                    binding.tvNoPlaces.show()
+                    binding.rvPlaces.hide()
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("MainActivity", "Error loading places", e)
+                if (!isFirstLoad) {
+                    showToast("Error: ${e.message}")
+                }
+                placesAdapter.submitList(emptyList())
+                binding.tvNoPlaces.show()
+                binding.rvPlaces.hide()
+            } finally {
+                hideLoading()
+                isFirstLoad = false
+            }
                         binding.tvNoPlaces.show()
                         binding.rvPlaces.hide()
                     }
@@ -266,64 +256,39 @@ class MainActivity : AppCompatActivity() {
                 )
                 
                 if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        try {
-                            val rawJson = responseBody.string()
-                            if (rawJson.trim().startsWith("{")) {
-                                val gson = Gson()
-                                val placeResponse = gson.fromJson(rawJson, PlaceResponse::class.java)
-                                
-                                if (placeResponse.success == true) {
-                                    val places = placeResponse.data ?: emptyList()
-                                    val approvedPlaces = places.filter { it.isApproved }
-                                    placesAdapter.submitList(approvedPlaces)
-                                    
-                                    if (approvedPlaces.isEmpty()) {
-                                        binding.tvNoPlaces.show()
-                                        binding.rvPlaces.hide()
-                                    } else {
-                                        binding.tvNoPlaces.hide()
-                                        binding.rvPlaces.show()
-                                    }
-                                } else {
-                                    showToast(placeResponse.message ?: "No places found")
-                                    placesAdapter.submitList(emptyList())
-                                    binding.tvNoPlaces.show()
-                                    binding.rvPlaces.hide()
-                                }
-                            } else {
-                                showToast("Invalid response format")
-                                placesAdapter.submitList(emptyList())
-                                binding.tvNoPlaces.show()
-                                binding.rvPlaces.hide()
-                            }
-                        } catch (e: JsonSyntaxException) {
-                            showToast("Failed to parse response")
-                            placesAdapter.submitList(emptyList())
+                    val placeResponse = response.body()
+                    if (placeResponse != null && placeResponse.success) {
+                        val places = placeResponse.data ?: emptyList()
+                        val approvedPlaces = places.filter { it.isApproved }
+                        placesAdapter.submitList(approvedPlaces)
+                        
+                        if (approvedPlaces.isEmpty()) {
                             binding.tvNoPlaces.show()
                             binding.rvPlaces.hide()
+                        } else {
+                            binding.tvNoPlaces.hide()
+                            binding.rvPlaces.show()
                         }
+                    } else {
+                        showToast(placeResponse?.message ?: "No places found")
+                        placesAdapter.submitList(emptyList())
+                        binding.tvNoPlaces.show()
+                        binding.rvPlaces.hide()
                     }
                 } else {
-                    try {
-                        val errorBody = response.errorBody()?.string()
-                        showToast("Search failed: ${errorBody ?: response.code()}")
-                    } catch (e: Exception) {
-                        showToast("Search failed: ${response.code()}")
-                    }
+                    showToast("Failed to load places")
                     placesAdapter.submitList(emptyList())
-                    binding.tvNoPlaces.show()
-                    binding.rvPlaces.hide()
-                }
-            } catch (e: Exception) {
-                showToast("Error: ${e.message}")
-                placesAdapter.submitList(emptyList())
                 binding.tvNoPlaces.show()
                 binding.rvPlaces.hide()
-            } finally {
-                hideLoading()
             }
+        } catch (e: Exception) {
+            showToast("Error: ${e.message}")
+            placesAdapter.submitList(emptyList())
+            binding.tvNoPlaces.show()
+            binding.rvPlaces.hide()
+        } finally {
+            hideLoading()
+        }
         }
     }
     
