@@ -364,13 +364,8 @@ class MainActivity : AppCompatActivity() {
     
     override fun onResume() {
         super.onResume()
-        // Load places on first resume (app startup)
-        // Also reload when returning from other activities (like AdminPanel after approval)
-        if (isFirstLoad) {
-            loadPlaces()
-        } else {
-            // Refresh places when returning from other activities to show newly approved places
-            loadPlaces()
-        }
+        // Load places on first resume (app startup) and when returning from other activities
+        // This ensures approved places appear after returning from AdminPanel
+        loadPlaces()
     }
 }
