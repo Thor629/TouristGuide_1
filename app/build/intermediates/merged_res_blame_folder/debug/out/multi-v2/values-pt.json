@@ -4,7 +4,7 @@
             "outputFile": "com.touristguide.app-mergeDebugResources-45:/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\vikas\\.gradle\\caches\\transforms-3\\5266ee3512df1427b6a0c0195640f93d\\transformed\\preference-1.2.1\\res\\values-pt\\values-pt.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\5266ee3512df1427b6a0c0195640f93d\\transformed\\preference-1.2.1\\res\\values-pt\\values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\vikas\\.gradle\\caches\\transforms-3\\9792fb5f9211965b6a257218718f5d13\\transformed\\core-1.12.0\\res\\values-pt\\values-pt.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\9792fb5f9211965b6a257218718f5d13\\transformed\\core-1.12.0\\res\\values-pt\\values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\vikas\\.gradle\\caches\\transforms-3\\afc04b595a8fcdaeabdee65f98767aee\\transformed\\appcompat-1.6.1\\res\\values-pt\\values-pt.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\afc04b595a8fcdaeabdee65f98767aee\\transformed\\appcompat-1.6.1\\res\\values-pt\\values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -4,7 +4,7 @@
             "outputFile": "com.touristguide.app-mergeDebugResources-45:/values-sw360dp-v13/values-sw360dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\vikas\\.gradle\\caches\\transforms-3\\5266ee3512df1427b6a0c0195640f93d\\transformed\\preference-1.2.1\\res\\values-sw360dp-v13\\values-sw360dp-v13.xml",
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\5266ee3512df1427b6a0c0195640f93d\\transformed\\preference-1.2.1\\res\\values-sw360dp-v13\\values-sw360dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
