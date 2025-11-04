@@ -113,8 +113,11 @@
                     android:textAllCaps="false"
                     app:icon="@android:drawable/ic_menu_edit"
                     app:iconSize="16dp"
-                    app:iconGravity="textStart"
+                    app:iconGravity="textEnd"
                     app:iconPadding="4dp"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/primary"
+                    android:textColor="@color/primary"
                     style="@style/Widget.Material3.Button.OutlinedButton"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -128,10 +131,11 @@
                     android:textAllCaps="false"
                     app:icon="@android:drawable/ic_menu_delete"
                     app:iconSize="16dp"
-                    app:iconGravity="textStart"
+                    app:iconGravity="textEnd"
                     app:iconPadding="4dp"
-                    app:strokeColor="@android:color/holo_red_dark"
-                    android:textColor="@android:color/holo_red_dark"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/error"
+                    android:textColor="@color/error"
                     style="@style/Widget.Material3.Button.OutlinedButton"/>
 
             </LinearLayout>
