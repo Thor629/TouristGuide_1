@@ -41,10 +41,10 @@ com.touristguide.app-jetified-fragment-ktx-1.6.2-39 C:\Users\Admin\.gradle\cache
 com.touristguide.app-lifecycle-runtime-2.6.2-40 C:\Users\Admin\.gradle\caches\transforms-3\f171e4e6bb2a15d6dfca3a0a2f205745\transformed\lifecycle-runtime-2.6.2\res
 com.touristguide.app-coordinatorlayout-1.1.0-41 C:\Users\Admin\.gradle\caches\transforms-3\f3c2711acb4c09317d0e0fbd764dcf14\transformed\coordinatorlayout-1.1.0\res
 com.touristguide.app-jetified-lifecycle-runtime-ktx-2.6.2-42 C:\Users\Admin\.gradle\caches\transforms-3\fac80f46305f6238158d298b28c75b14\transformed\jetified-lifecycle-runtime-ktx-2.6.2\res
-com.touristguide.app-pngs-43 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\build\generated\res\pngs\debug
-com.touristguide.app-resValues-44 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\build\generated\res\resValues\debug
-com.touristguide.app-packageDebugResources-45 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.touristguide.app-packageDebugResources-46 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.touristguide.app-merged_res-47 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\build\intermediates\merged_res\debug
-com.touristguide.app-debug-48 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\src\debug\res
-com.touristguide.app-main-49 C:\Users\Admin\Downloads\TouristGuide\TouristGuide\android\app\src\main\res
+com.touristguide.app-pngs-43 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\build\generated\res\pngs\debug
+com.touristguide.app-resValues-44 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\build\generated\res\resValues\debug
+com.touristguide.app-packageDebugResources-45 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.touristguide.app-packageDebugResources-46 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.touristguide.app-merged_res-47 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\build\intermediates\merged_res\debug
+com.touristguide.app-debug-48 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\src\debug\res
+com.touristguide.app-main-49 C:\Users\Admin\AndroidStudioProjects\TouristGuide_1\app\src\main\res
