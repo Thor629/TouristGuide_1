@@ -41,9 +41,11 @@ class LikedPlacesActivity : AppCompatActivity() {
     }
     
     private fun setupRecyclerView() {
-        placesAdapter = PlacesAdapter { place ->
-            openPlaceDetails(place)
-        }
+        placesAdapter = PlacesAdapter(
+            onPlaceClick = { place ->
+                openPlaceDetails(place)
+            }
+        )
         
         binding.rvLikedPlaces.apply {
             layoutManager = GridLayoutManager(this@LikedPlacesActivity, 2)

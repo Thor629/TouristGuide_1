@@ -39,11 +39,13 @@ class MyPlacesActivity : AppCompatActivity() {
     }
     
     private fun setupRecyclerView() {
-        placesAdapter = PlacesAdapter { place ->
-            val intent = Intent(this, PlaceDetailsActivity::class.java)
-            intent.putExtra("PLACE_ID", place.id)
-            startActivity(intent)
-        }
+        placesAdapter = PlacesAdapter(
+            onPlaceClick = { place ->
+                val intent = Intent(this, PlaceDetailsActivity::class.java)
+                intent.putExtra("PLACE_ID", place.id)
+                startActivity(intent)
+            }
+        )
         
         binding.rvPlaces.apply {
             layoutManager = LinearLayoutManager(this@MyPlacesActivity)
