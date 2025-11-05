@@ -59,6 +59,10 @@ class PendingPlacesAdapter(
                 // Load image using extension function
                 ivPlaceImage.loadImage(place.images.firstOrNull())
                 
+                // Ensure buttons are always visible in admin panel
+                btnApprove.visibility = android.view.View.VISIBLE
+                btnDelete.visibility = android.view.View.VISIBLE
+                
                 btnApprove.setOnClickListener {
                     onApproveClick(place)
                 }
