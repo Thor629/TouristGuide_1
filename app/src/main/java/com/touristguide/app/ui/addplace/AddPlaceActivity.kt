@@ -33,6 +33,8 @@ class AddPlaceActivity : AppCompatActivity() {
     private lateinit var imagesAdapter: SelectedImagesAdapter
     private val categories = mutableListOf<Category>()
     private var selectedCategoryId: String? = null
+    private var isEditMode = false
+    private var placeId: String? = null
     
     private val imagePickerLauncher = registerForActivityResult(
         ActivityResultContracts.GetMultipleContents()
@@ -49,17 +51,26 @@ class AddPlaceActivity : AppCompatActivity() {
         binding = ActivityAddPlaceBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
+        // Check if in edit mode
+        isEditMode = intent.getBooleanExtra("EDIT_MODE", false)
+        placeId = intent.getStringExtra("PLACE_ID")
+        
         setupToolbar()
         setupRecyclerView()
         setupCategorySpinner()
         setupClickListeners()
         loadCategories()
+        
+        // Load place data if editing
+        if (isEditMode && placeId != null) {
+            loadPlaceData()
+        }
     }
     
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.add_place)
+        supportActionBar?.title = if (isEditMode) "Edit Place" else getString(R.string.add_place)
         binding.toolbar.setNavigationOnClickListener { finish() }
     }
     
@@ -98,6 +109,11 @@ class AddPlaceActivity : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             validateAndSubmit()
         }
+        
+        // Update button text for edit mode
+        if (isEditMode) {
+            binding.btnSubmit.text = "Update Place"
+        }
     }
     
     private fun loadCategories() {
@@ -121,6 +137,41 @@ class AddPlaceActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 showToast("Failed to load categories")
+            }
+        }
+    }
+    
+    private fun loadPlaceData() {
+        showLoading()
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getPlace(placeId!!)
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val place = response.body()?.data
+                    place?.let {
+                        // Fill in the form
+                        binding.etPlaceName.setText(it.name)
+                        binding.etLocation.setText(it.location)
+                        binding.etCity.setText(it.city)
+                        binding.etDescription.setText(it.description)
+                        binding.etLink.setText(it.link ?: "")
+                        
+                        // Select the category
+                        val categoryIndex = categories.indexOfFirst { cat -> cat.id == it.category.id }
+                        if (categoryIndex >= 0) {
+                            binding.spinnerCategory.setSelection(categoryIndex + 1) // +1 for "Select Category"
+                            selectedCategoryId = it.category.id
+                        }
+                    }
+                } else {
+                    showToast("Failed to load place data")
+                    finish()
+                }
+            } catch (e: Exception) {
+                showToast("Error: ${e.message}")
+                finish()
+            } finally {
+                hideLoading()
             }
         }
     }
@@ -181,7 +232,7 @@ class AddPlaceActivity : AppCompatActivity() {
                     link.toRequestBody("text/plain".toMediaTypeOrNull())
                 } else null
                 
-                // Prepare image parts
+                // Prepare image parts (only if new images selected)
                 val imageParts = mutableListOf<MultipartBody.Part>()
                 selectedImages.forEach { uri ->
                     try {
@@ -196,21 +247,37 @@ class AddPlaceActivity : AppCompatActivity() {
                     }
                 }
                 
-                val response = RetrofitClient.apiService.createPlace(
-                    namePart,
-                    locationPart,
-                    cityPart,
-                    descriptionPart,
-                    categoryPart,
-                    linkPart,
-                    if (imageParts.isEmpty()) null else imageParts
-                )
+                val response = if (isEditMode && placeId != null) {
+                    // Update existing place
+                    RetrofitClient.apiService.updatePlace(
+                        placeId!!,
+                        namePart,
+                        locationPart,
+                        cityPart,
+                        descriptionPart,
+                        categoryPart,
+                        linkPart,
+                        if (imageParts.isEmpty()) null else imageParts
+                    )
+                } else {
+                    // Create new place
+                    RetrofitClient.apiService.createPlace(
+                        namePart,
+                        locationPart,
+                        cityPart,
+                        descriptionPart,
+                        categoryPart,
+                        linkPart,
+                        if (imageParts.isEmpty()) null else imageParts
+                    )
+                }
                 
                 if (response.isSuccessful && response.body()?.success == true) {
-                    showToast(response.body()?.message ?: getString(R.string.place_added_success))
+                    val successMsg = if (isEditMode) "Place updated successfully" else response.body()?.message ?: getString(R.string.place_added_success)
+                    showToast(successMsg)
                     finish()
                 } else {
-                    val errorMsg = response.body()?.message ?: response.errorBody()?.string() ?: "Failed to add place"
+                    val errorMsg = response.body()?.message ?: response.errorBody()?.string() ?: "Failed to ${if (isEditMode) "update" else "add"} place"
                     showToast(errorMsg)
                     android.util.Log.e("AddPlace", "Error: $errorMsg, Code: ${response.code()}")
                 }

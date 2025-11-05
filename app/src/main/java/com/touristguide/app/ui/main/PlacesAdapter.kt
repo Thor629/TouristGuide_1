@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.touristguide.app.BuildConfig
 import com.touristguide.app.R
 import com.touristguide.app.data.model.Place
 import com.touristguide.app.databinding.ItemPlaceCardBinding
+import com.touristguide.app.utils.loadImage
 
 class PlacesAdapter(
     private val onPlaceClick: (Place) -> Unit,
@@ -41,25 +40,8 @@ class PlacesAdapter(
                 tvCategory.text = place.category.name
                 tvLikesCount.text = "${place.likesCount} likes"
                 
-                // Load image
-                val imageUrl = if (place.images.isNotEmpty()) {
-                    val imagePath = place.images[0]
-                    // Check if it's a full URL or a relative path
-                    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-                        imagePath
-                    } else {
-                        BuildConfig.BASE_URL.removeSuffix("/") + imagePath
-                    }
-                } else {
-                    ""
-                }
-                
-                Glide.with(itemView.context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
-                    .centerCrop()
-                    .into(ivPlaceImage)
+                // Load image using extension function
+                ivPlaceImage.loadImage(place.images.firstOrNull())
                 
                 // Show rating if available
                 if (place.averageRating > 0) {

@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.touristguide.app.BuildConfig
 import com.touristguide.app.R
 import com.touristguide.app.data.model.Place
 import com.touristguide.app.databinding.ItemPendingPlaceBinding
+import com.touristguide.app.utils.loadImage
 
 class PendingPlacesAdapter(
     private val onApproveClick: (Place) -> Unit,
@@ -41,25 +40,8 @@ class PendingPlacesAdapter(
                 tvAddedBy.text = "Added by: ${place.addedBy?.name ?: "Unknown"}"
                 tvDescription.text = place.description
                 
-                // Load image
-                val imageUrl = if (place.images.isNotEmpty()) {
-                    val imagePath = place.images[0]
-                    // Check if it's a full URL or a relative path
-                    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-                        imagePath
-                    } else {
-                        BuildConfig.BASE_URL.removeSuffix("/") + imagePath
-                    }
-                } else {
-                    ""
-                }
-                
-                Glide.with(itemView.context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
-                    .centerCrop()
-                    .into(ivPlaceImage)
+                // Load image using extension function
+                ivPlaceImage.loadImage(place.images.firstOrNull())
                 
                 btnApprove.setOnClickListener {
                     onApproveClick(place)

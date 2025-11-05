@@ -3,9 +3,9 @@ package com.touristguide.app.ui.placedetails
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.touristguide.app.R
 import com.touristguide.app.databinding.ItemImageSlideBinding
+import com.touristguide.app.utils.loadImage
 
 class ImageSliderAdapter(
     private val imageUrls: List<String>
@@ -31,12 +31,7 @@ class ImageSliderAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(imageUrl: String) {
-            Glide.with(itemView.context)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_logo)
-                .error(R.drawable.ic_logo)
-                .centerCrop()
-                .into(binding.ivSlide)
+            binding.ivSlide.loadImage(imageUrl)
         }
     }
 }
