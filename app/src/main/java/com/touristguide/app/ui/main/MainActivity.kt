@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.touristguide.app.R
 import com.touristguide.app.TouristGuideApp
@@ -128,7 +127,11 @@ class MainActivity : AppCompatActivity() {
         }
         
         binding.rvCategories.apply {
-            layoutManager = GridLayoutManager(this@MainActivity, 5)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+                this@MainActivity,
+                androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
+                false
+            )
             adapter = categoryAdapter
         }
     }

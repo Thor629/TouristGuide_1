@@ -89,13 +89,20 @@
                     android:fontFamily="sans-serif-black"
                     android:layout_marginBottom="12dp"/>
                 
-                <!-- Category Icons Grid -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCategories"
+                <!-- Category Icons Horizontal Scroll -->
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:nestedScrollingEnabled="false"/>
+                    android:scrollbars="none"
+                    android:layout_marginBottom="16dp">
+                    
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCategories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+                
+                </HorizontalScrollView>
                 
                 <!-- Popular Places Title -->
                 <TextView

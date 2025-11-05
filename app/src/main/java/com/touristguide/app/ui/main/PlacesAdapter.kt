@@ -57,38 +57,35 @@ class PlacesAdapter(
                 // Show/hide admin actions based on permissions
                 // ONLY show if user is explicitly allowed (owner or admin)
                 val permissions = place.permissions
-                val canShowActions = permissions != null && 
-                                    (permissions.isOwner == true || permissions.isAdmin == true) &&
-                                    (permissions.canEdit == true || permissions.canDelete == true)
                 
-                if (canShowActions) {
-                    llAdminActions.visibility = android.view.View.VISIBLE
+                // Default: Hide everything first
+                llAdminActions.visibility = android.view.View.GONE
+                btnEdit.visibility = android.view.View.GONE
+                btnDelete.visibility = android.view.View.GONE
+                
+                // Only show if explicitly allowed AND user is owner/admin
+                if (permissions != null) {
+                    val isOwnerOrAdmin = permissions.isOwner == true || permissions.isAdmin == true
+                    val canEdit = permissions.canEdit == true
+                    val canDelete = permissions.canDelete == true
                     
-                    // Show edit button only if explicitly allowed
-                    btnEdit.visibility = if (permissions?.canEdit == true) {
-                        android.view.View.VISIBLE
-                    } else {
-                        android.view.View.GONE
+                    if (isOwnerOrAdmin && (canEdit || canDelete)) {
+                        llAdminActions.visibility = android.view.View.VISIBLE
+                        
+                        if (canEdit) {
+                            btnEdit.visibility = android.view.View.VISIBLE
+                            btnEdit.setOnClickListener {
+                                onEditClick?.invoke(place)
+                            }
+                        }
+                        
+                        if (canDelete) {
+                            btnDelete.visibility = android.view.View.VISIBLE
+                            btnDelete.setOnClickListener {
+                                onDeleteClick?.invoke(place)
+                            }
+                        }
                     }
-                    
-                    // Show delete button only if explicitly allowed
-                    btnDelete.visibility = if (permissions?.canDelete == true) {
-                        android.view.View.VISIBLE
-                    } else {
-                        android.view.View.GONE
-                    }
-                    
-                    // Set click listeners
-                    btnEdit.setOnClickListener {
-                        onEditClick?.invoke(place)
-                    }
-                    
-                    btnDelete.setOnClickListener {
-                        onDeleteClick?.invoke(place)
-                    }
-                } else {
-                    // Hide all admin actions for regular users
-                    llAdminActions.visibility = android.view.View.GONE
                 }
             }
         }
