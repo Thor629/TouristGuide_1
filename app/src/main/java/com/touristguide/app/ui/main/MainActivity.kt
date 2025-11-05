@@ -59,7 +59,13 @@ class MainActivity : AppCompatActivity() {
             onPlaceClick = { place ->
                 openPlaceDetails(place)
             },
-            showAdminActions = false  // No edit/delete on home page
+            onEditClick = { place ->
+                editPlace(place)
+            },
+            onDeleteClick = { place ->
+                confirmDeletePlace(place)
+            },
+            showAdminActions = true  // Show edit/delete for admin/owners
         )
 
         binding.rvPlaces.apply {

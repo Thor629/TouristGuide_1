@@ -45,7 +45,13 @@ class LikedPlacesActivity : AppCompatActivity() {
             onPlaceClick = { place ->
                 openPlaceDetails(place)
             },
-            showAdminActions = false  // No edit/delete in liked places
+            onEditClick = { place ->
+                showToast("Edit place: ${place.name}")
+            },
+            onDeleteClick = { place ->
+                showToast("Delete place: ${place.name}")
+            },
+            showAdminActions = true  // Show edit/delete for admin/owners
         )
         
         binding.rvLikedPlaces.apply {
