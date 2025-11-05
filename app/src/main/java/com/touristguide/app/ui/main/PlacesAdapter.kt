@@ -43,7 +43,13 @@ class PlacesAdapter(
                 
                 // Load image
                 val imageUrl = if (place.images.isNotEmpty()) {
-                    BuildConfig.BASE_URL.removeSuffix("/") + place.images[0]
+                    val imagePath = place.images[0]
+                    // Check if it's a full URL or a relative path
+                    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+                        imagePath
+                    } else {
+                        BuildConfig.BASE_URL.removeSuffix("/") + imagePath
+                    }
                 } else {
                     ""
                 }

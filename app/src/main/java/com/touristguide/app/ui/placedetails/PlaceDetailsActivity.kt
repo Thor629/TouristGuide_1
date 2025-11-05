@@ -131,7 +131,14 @@ class PlaceDetailsActivity : AppCompatActivity() {
             }
             
             // Setup image slider
-            val imageUrls = place.images.map { BuildConfig.BASE_URL.removeSuffix("/") + it }
+            val imageUrls = place.images.map { imagePath ->
+                // Check if it's a full URL or a relative path
+                if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+                    imagePath
+                } else {
+                    BuildConfig.BASE_URL.removeSuffix("/") + imagePath
+                }
+            }
             val imageAdapter = ImageSliderAdapter(imageUrls)
             viewPagerImages.adapter = imageAdapter
             
