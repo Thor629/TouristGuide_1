@@ -44,7 +44,8 @@ class LikedPlacesActivity : AppCompatActivity() {
         placesAdapter = PlacesAdapter(
             onPlaceClick = { place ->
                 openPlaceDetails(place)
-            }
+            },
+            showAdminActions = false  // No edit/delete in liked places
         )
         
         binding.rvLikedPlaces.apply {

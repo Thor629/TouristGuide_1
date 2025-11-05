@@ -13,7 +13,8 @@ import com.touristguide.app.utils.loadImage
 class PlacesAdapter(
     private val onPlaceClick: (Place) -> Unit,
     private val onEditClick: ((Place) -> Unit)? = null,
-    private val onDeleteClick: ((Place) -> Unit)? = null
+    private val onDeleteClick: ((Place) -> Unit)? = null,
+    private val showAdminActions: Boolean = false
 ) : ListAdapter<Place, PlacesAdapter.PlaceViewHolder>(PlaceDiffCallback()) {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
@@ -55,34 +56,36 @@ class PlacesAdapter(
                 }
                 
                 // Show/hide admin actions based on permissions
-                // ONLY show if user is explicitly allowed (owner or admin)
-                val permissions = place.permissions
-                
                 // Default: Hide everything first
                 llAdminActions.visibility = android.view.View.GONE
                 btnEdit.visibility = android.view.View.GONE
                 btnDelete.visibility = android.view.View.GONE
                 
-                // Only show if explicitly allowed AND user is owner/admin
-                if (permissions != null) {
-                    val isOwnerOrAdmin = permissions.isOwner == true || permissions.isAdmin == true
-                    val canEdit = permissions.canEdit == true
-                    val canDelete = permissions.canDelete == true
+                // Only show admin actions if enabled for this adapter instance
+                if (showAdminActions) {
+                    val permissions = place.permissions
                     
-                    if (isOwnerOrAdmin && (canEdit || canDelete)) {
-                        llAdminActions.visibility = android.view.View.VISIBLE
+                    // Only show if explicitly allowed AND user is owner/admin
+                    if (permissions != null) {
+                        val isOwnerOrAdmin = permissions.isOwner == true || permissions.isAdmin == true
+                        val canEdit = permissions.canEdit == true
+                        val canDelete = permissions.canDelete == true
                         
-                        if (canEdit) {
-                            btnEdit.visibility = android.view.View.VISIBLE
-                            btnEdit.setOnClickListener {
-                                onEditClick?.invoke(place)
+                        if (isOwnerOrAdmin && (canEdit || canDelete)) {
+                            llAdminActions.visibility = android.view.View.VISIBLE
+                            
+                            if (canEdit) {
+                                btnEdit.visibility = android.view.View.VISIBLE
+                                btnEdit.setOnClickListener {
+                                    onEditClick?.invoke(place)
+                                }
                             }
-                        }
-                        
-                        if (canDelete) {
-                            btnDelete.visibility = android.view.View.VISIBLE
-                            btnDelete.setOnClickListener {
-                                onDeleteClick?.invoke(place)
+                            
+                            if (canDelete) {
+                                btnDelete.visibility = android.view.View.VISIBLE
+                                btnDelete.setOnClickListener {
+                                    onDeleteClick?.invoke(place)
+                                }
                             }
                         }
                     }

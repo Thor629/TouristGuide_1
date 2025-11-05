@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.touristguide.app.R
 import com.touristguide.app.TouristGuideApp
@@ -58,12 +59,7 @@ class MainActivity : AppCompatActivity() {
             onPlaceClick = { place ->
                 openPlaceDetails(place)
             },
-            onEditClick = { place ->
-                editPlace(place)
-            },
-            onDeleteClick = { place ->
-                confirmDeletePlace(place)
-            }
+            showAdminActions = false  // No edit/delete on home page
         )
 
         binding.rvPlaces.apply {

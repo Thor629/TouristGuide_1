@@ -44,7 +44,16 @@ class MyPlacesActivity : AppCompatActivity() {
                 val intent = Intent(this, PlaceDetailsActivity::class.java)
                 intent.putExtra("PLACE_ID", place.id)
                 startActivity(intent)
-            }
+            },
+            onEditClick = { place ->
+                // TODO: Navigate to edit place screen
+                showToast("Edit place: ${place.name}")
+            },
+            onDeleteClick = { place ->
+                // TODO: Show delete confirmation
+                showToast("Delete place: ${place.name}")
+            },
+            showAdminActions = true  // Show edit/delete in My Places
         )
         
         binding.rvPlaces.apply {
