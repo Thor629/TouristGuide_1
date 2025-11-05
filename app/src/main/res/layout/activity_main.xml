@@ -37,16 +37,28 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Travel The World Header -->
                 <TextView
-                    android:id="@+id/tvWelcome"
+                    android:id="@+id/tvMainTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/welcome"
-                    android:textSize="24sp"
+                    android:text="Travel The World!"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
                     android:fontFamily="sans-serif-black"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+                
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore all hidden places"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="24dp"/>
 
                 <!-- Search Bar -->
                 <androidx.cardview.widget.CardView
@@ -66,21 +78,36 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Category Spinner -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Category Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+                
+                <!-- Category Icons Grid -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
-                    android:layout_marginBottom="16dp">
-
-                    <Spinner
-                        android:id="@+id/spinnerCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:padding="12dp"/>
-
-                </com.google.android.material.card.MaterialCardView>
+                    android:layout_marginBottom="16dp"
+                    android:nestedScrollingEnabled="false"/>
+                
+                <!-- Popular Places Title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Popular Places"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"/>
 
                 <!-- Places Grid -->
                 <androidx.recyclerview.widget.RecyclerView
