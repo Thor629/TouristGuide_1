@@ -2,11 +2,6 @@ package com.touristguide.app.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
@@ -57,9 +52,6 @@ class MainActivity : AppCompatActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Tourist Guide - Surat"
-
-        val userName = preferenceManager.getUserName() ?: "User"
-        binding.tvWelcome.text = "Welcome, $userName!"
     }
 
     private fun setupRecyclerView() {
