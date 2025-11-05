@@ -41,17 +41,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/welcome"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-black"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Search Bar -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="4dp"
+                    app:cardCornerRadius="30dp"
+                    app:cardElevation="6dp"
                     android:layout_marginBottom="16dp">
 
                     <androidx.appcompat.widget.SearchView
@@ -68,8 +69,8 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
                     android:layout_marginBottom="16dp">
 
                     <Spinner
@@ -96,7 +97,8 @@
                     android:text="@string/no_places_found"
                     android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
                     android:visibility="gone"
                     tools:visibility="visible"/>
 

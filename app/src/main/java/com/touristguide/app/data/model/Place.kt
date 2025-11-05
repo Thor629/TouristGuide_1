@@ -1,5 +1,6 @@
 package com.touristguide.app.data.model
 
+import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 
 data class Place(
@@ -9,17 +10,17 @@ data class Place(
     val location: String,
     val city: String,
     val description: String,
-    val images: List<String>,
-    val link: String?,
+    val images: List<String> = emptyList(),
+    val link: String? = null,
     val category: Category,
-    val addedBy: User?,
-    val isApproved: Boolean,
+    val addedBy: JsonElement? = null,
+    val isApproved: Boolean = false,
     val approvedBy: String? = null,
     val approvedAt: String? = null,
     val likesCount: Int = 0,
     val reviewsCount: Int = 0,
     val averageRating: Double = 0.0,
-    val createdAt: String,
+    val createdAt: String = "",
     val permissions: PlacePermissions? = null
 )
 

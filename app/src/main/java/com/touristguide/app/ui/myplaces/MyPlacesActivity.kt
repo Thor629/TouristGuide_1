@@ -66,21 +66,33 @@ class MyPlacesActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClient.apiService.getMyPlaces()
                 
-                if (response.isSuccessful && response.body()?.success == true) {
-                    places.clear()
-                    response.body()?.data?.let { places.addAll(it) }
-                    
-                    if (places.isEmpty()) {
-                        showEmptyState()
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body?.success == true) {
+                        places.clear()
+                        body.data?.let { places.addAll(it) }
+                        android.util.Log.d("MyPlaces", "Loaded ${places.size} places")
+                        
+                        if (places.isEmpty()) {
+                            showEmptyState()
+                        } else {
+                            hideEmptyState()
+                            placesAdapter.submitList(places.toList())
+                        }
                     } else {
-                        hideEmptyState()
-                        placesAdapter.submitList(places)
+                        android.util.Log.e("MyPlaces", "Response not successful: ${body?.message}")
+                        showToast(body?.message ?: "Failed to load places")
+                        showEmptyState()
                     }
                 } else {
-                    showToast(response.body()?.message ?: "Failed to load places")
+                    android.util.Log.e("MyPlaces", "HTTP error: ${response.code()}")
+                    showToast("Failed to load places: ${response.code()}")
+                    showEmptyState()
                 }
             } catch (e: Exception) {
-                showToast("Error: ${e.message}")
+                android.util.Log.e("MyPlaces", "Exception loading places", e)
+                showToast("Error: ${e.localizedMessage ?: e.message}")
+                showEmptyState()
             } finally {
                 hideLoading()
                 binding.swipeRefresh.isRefreshing = false

@@ -8,22 +8,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- App Colors -->
-    <color name="primary">#FF2196F3</color>
-    <color name="primary_dark">#FF1976D2</color>
-    <color name="primary_light">#FFBBDEFB</color>
-    <color name="accent">#FFFF5722</color>
-    <color name="accent_dark">#FFE64A19</color>
+    <!-- App Colors - Green Travel Theme -->
+    <color name="primary">#C8E6C9</color>
+    <color name="primary_dark">#81C784</color>
+    <color name="primary_light">#E8F5E9</color>
+    <color name="accent">#66BB6A</color>
+    <color name="accent_dark">#4CAF50</color>
     
     <!-- Background Colors -->
-    <color name="background">#FFF5F5F5</color>
+    <color name="background">#FFFEF8E1</color>
     <color name="surface">#FFFFFFFF</color>
     <color name="card_background">#FFFFFFFF</color>
     
-    <!-- Text Colors -->
-    <color name="text_primary">#DE000000</color>
-    <color name="text_secondary">#99000000</color>
-    <color name="text_hint">#61000000</color>
+    <!-- Text Colors - Dark/Black only -->
+    <color name="text_primary">#FF000000</color>
+    <color name="text_secondary">#CC000000</color>
+    <color name="text_hint">#99000000</color>
     <color name="text_white">#FFFFFFFF</color>
     
     <!-- Status Colors -->

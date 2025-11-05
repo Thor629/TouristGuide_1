@@ -66,22 +66,37 @@ class LikedPlacesActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClient.apiService.getLikedPlaces()
                 
-                if (response.isSuccessful && response.body()?.success == true) {
-                    val places = response.body()?.data ?: emptyList()
-                    placesAdapter.submitList(places)
-                    
-                    if (places.isEmpty()) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body?.success == true) {
+                        val places = body.data ?: emptyList()
+                        android.util.Log.d("LikedPlaces", "Loaded ${places.size} liked places")
+                        placesAdapter.submitList(places)
+                        
+                        if (places.isEmpty()) {
+                            binding.tvNoPlaces.show()
+                            binding.rvLikedPlaces.hide()
+                        } else {
+                            binding.tvNoPlaces.hide()
+                            binding.rvLikedPlaces.show()
+                        }
+                    } else {
+                        android.util.Log.e("LikedPlaces", "Response not successful: ${body?.message}")
+                        showToast(body?.message ?: "Failed to load liked places")
                         binding.tvNoPlaces.show()
                         binding.rvLikedPlaces.hide()
-                    } else {
-                        binding.tvNoPlaces.hide()
-                        binding.rvLikedPlaces.show()
                     }
                 } else {
-                    showToast("Failed to load liked places")
+                    android.util.Log.e("LikedPlaces", "HTTP error: ${response.code()}")
+                    showToast("Failed to load liked places: ${response.code()}")
+                    binding.tvNoPlaces.show()
+                    binding.rvLikedPlaces.hide()
                 }
             } catch (e: Exception) {
-                showToast("Error: ${e.message}")
+                android.util.Log.e("LikedPlaces", "Exception loading places", e)
+                showToast("Error: ${e.localizedMessage ?: e.message}")
+                binding.tvNoPlaces.show()
+                binding.rvLikedPlaces.hide()
             } finally {
                 hideLoading()
             }
