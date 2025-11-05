@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val preferenceManager by lazy { (application as TouristGuideApp).preferenceManager }
     private lateinit var placesAdapter: PlacesAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
     private val categories = mutableListOf<Category>()
     private var selectedCategoryId: String? = null
     private var isFirstLoad = true
@@ -45,8 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         setupToolbar()
         setupRecyclerView()
+        setupCategoryRecyclerView()
         setupBottomNavigation()
-        setupCategorySpinner()
         setupSearch()
         setupSwipeRefresh()
 
@@ -128,14 +129,15 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun setupCategorySpinner() {
-        binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedCategoryId = if (position == 0) null else categories[position - 1].id
-                loadPlaces()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+    private fun setupCategoryRecyclerView() {
+        categoryAdapter = CategoryAdapter { category ->
+            selectedCategoryId = category.id
+            loadPlaces()
+        }
+        
+        binding.rvCategories.apply {
+            layoutManager = GridLayoutManager(this@MainActivity, 5)
+            adapter = categoryAdapter
         }
     }
 
@@ -168,20 +170,15 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body()?.success == true) {
                     categories.clear()
                     response.body()?.data?.let { categories.addAll(it) }
-
-                    val categoryNames = mutableListOf("All Categories")
-                    categoryNames.addAll(categories.map { it.name })
-
-                    val adapter = ArrayAdapter(
-                        this@MainActivity,
-                        android.R.layout.simple_spinner_item,
-                        categoryNames
-                    )
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.spinnerCategory.adapter = adapter
+                    
+                    // Update category adapter
+                    categoryAdapter.submitList(categories)
                 }
+                // Load all places initially
+                loadPlaces()
             } catch (e: Exception) {
                 // Silently fail for categories
+                loadPlaces()
             }
         }
     }
