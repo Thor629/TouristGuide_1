@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         setupToolbar()
         setupRecyclerView()
-        setupFab()
+        setupBottomNavigation()
         setupCategorySpinner()
         setupSearch()
         setupSwipeRefresh()
@@ -80,10 +80,52 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupFab() {
-        binding.fabAddPlace.setOnClickListener {
-            startActivity(Intent(this, AddPlaceActivity::class.java))
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    // Already on home, do nothing or refresh
+                    true
+                }
+                R.id.navigation_liked -> {
+                    startActivity(Intent(this, LikedPlacesActivity::class.java))
+                    true
+                }
+                R.id.navigation_add -> {
+                    startActivity(Intent(this, AddPlaceActivity::class.java))
+                    true
+                }
+                R.id.navigation_my_places -> {
+                    startActivity(Intent(this, MyPlacesActivity::class.java))
+                    true
+                }
+                R.id.navigation_account -> {
+                    showAccountOptions()
+                    true
+                }
+                else -> false
+            }
         }
+        // Set home as selected
+        binding.bottomNavigation.selectedItemId = R.id.navigation_home
+    }
+    
+    private fun showAccountOptions() {
+        val options = if (preferenceManager.isAdmin()) {
+            arrayOf("Admin Panel", "Logout")
+        } else {
+            arrayOf("Logout")
+        }
+        
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Account")
+            .setItems(options) { _, which ->
+                when (options[which]) {
+                    "Admin Panel" -> startActivity(Intent(this, AdminPanelActivity::class.java))
+                    "Logout" -> showLogoutDialog()
+                }
+            }
+            .show()
     }
 
     private fun setupCategorySpinner() {
