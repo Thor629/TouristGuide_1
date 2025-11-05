@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonObject
 import com.touristguide.app.R
 import com.touristguide.app.data.model.Place
 import com.touristguide.app.databinding.ItemPendingPlaceBinding
@@ -37,7 +38,22 @@ class PendingPlacesAdapter(
                 tvPlaceName.text = place.name
                 tvLocation.text = place.location
                 tvCategory.text = place.category.name
-                tvAddedBy.text = "Added by: ${place.addedBy?.name ?: "Unknown"}"
+                
+                // Extract name from addedBy JsonElement
+                val addedByName = try {
+                    when {
+                        place.addedBy == null -> "Unknown"
+                        place.addedBy.isJsonObject -> {
+                            val obj = place.addedBy.asJsonObject
+                            obj.get("name")?.asString ?: "Unknown"
+                        }
+                        place.addedBy.isJsonPrimitive -> "User"
+                        else -> "Unknown"
+                    }
+                } catch (e: Exception) {
+                    "Unknown"
+                }
+                tvAddedBy.text = "Added by: $addedByName"
                 tvDescription.text = place.description
                 
                 // Load image using extension function
