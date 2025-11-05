@@ -107,17 +107,20 @@
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Modern Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:background="@drawable/bottom_nav_background"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/accent_dark"
-        app:itemTextColor="@color/text_primary"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:itemIconSize="28dp"
+        app:itemTextAppearanceActive="@style/BottomNavTextActive"
+        app:itemTextAppearanceInactive="@style/BottomNavTextInactive"
         app:labelVisibilityMode="labeled"
-        app:elevation="8dp"/>
+        app:elevation="16dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

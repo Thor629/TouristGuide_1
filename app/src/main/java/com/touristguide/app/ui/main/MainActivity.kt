@@ -340,34 +340,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        // Hide admin menu if not admin
-        menu?.findItem(R.id.action_admin)?.isVisible = preferenceManager.isAdmin()
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_liked_places -> {
-                startActivity(Intent(this, LikedPlacesActivity::class.java))
-                true
-            }
-            R.id.action_my_places -> {
-                startActivity(Intent(this, MyPlacesActivity::class.java))
-                true
-            }
-            R.id.action_admin -> {
-                startActivity(Intent(this, AdminPanelActivity::class.java))
-                true
-            }
-            R.id.action_logout -> {
-                showLogoutDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+    // Menu removed - all navigation now in bottom navigation bar
 
     private fun showLogoutDialog() {
         MaterialAlertDialogBuilder(this)

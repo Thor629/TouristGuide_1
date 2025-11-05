@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-    <item
-        android:id="@+id/action_liked_places"
-        android:title="@string/my_liked_places"
-        android:icon="@drawable/ic_favorite"
-        app:showAsAction="ifRoom"/>
-    
-    <item
-        android:id="@+id/action_my_places"
-        android:title="My Places"
-        app:showAsAction="never"/>
-    
-    <item
-        android:id="@+id/action_admin"
-        android:title="@string/admin_panel"
-        android:visible="false"
-        app:showAsAction="never"/>
-    
-    <item
-        android:id="@+id/action_logout"
-        android:title="@string/logout"
-        app:showAsAction="never"/>
-    
+    <!-- All navigation moved to bottom navigation bar -->
 </menu>
