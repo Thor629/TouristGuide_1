@@ -100,6 +100,9 @@
                     android:layout_weight="1"
                     android:text="@string/delete"
                     android:textColor="@color/error"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="@color/error"
+                    app:iconGravity="textStart"
                     app:strokeColor="@color/error"
                     android:layout_marginStart="8dp"/>
 
